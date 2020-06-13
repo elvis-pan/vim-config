@@ -18,7 +18,7 @@ set expandtab
 set breakindent
 
 set cursorline
-" set cursorcolumn
+"set cursorcolumn
 
 set autoread
 set wrap
@@ -41,18 +41,34 @@ set nostartofline
 set nofoldenable
 set backspace=indent,eol,start
 set clipboard=unnamed
+set relativenumber
 
 set noshowmode
 set background=dark
 set history=1000
 set linespace=3
-""set guifont=Menlo:h14
-set guifont=SF_Mono:h14
+set guifont=Menlo:h15
+"set guifont=SF_Mono:h14
+set guioptions=
 colorscheme space-vim-dark
 "colorscheme onedark
-let g:lightline = {
-      \ 'colorscheme': 'one',
-      \ }
+"let g:lightline = {
+"      \ 'colorscheme': 'one',
+"      \ 'active': {
+"      \   'left': [ [ 'mode', 'paste' ],
+"      \             [ 'readonly', 'filename', 'modified'] ]
+"      \ },
+"      \ 'component': {
+"      \   'gitbranch': 'FugitiveHead'
+"      \ },
+"      \ }
+let g:airline_theme='base16_spacemacs'
+"let g:airline_powerline_fonts=1
+
+
+
+
+
 
 "C indentation style and syntax highlighting for c, c++, and c0 files
 autocmd FileType c set cindent
@@ -71,6 +87,7 @@ autocmd FileType py set tabstop=4
 autocmd FileType py set shiftwidth=4
 autocmd FileType py set expandtab
 autocmd FileType py setf python
+autocmd BufEnter,BufRead,BufNewFile *.py    set iskeyword-=:
 
 "Set up Vundle
 set rtp+=~/.vim/bundle/Vundle.vim
@@ -91,8 +108,11 @@ Plugin 'Valloric/YouCompleteMe'
 Plugin 'itchyny/lightline.vim'
 Plugin 'rakr/vim-two-firewatch'
 " Plugin 'liuchengxu/space-vim-dark'
-Plugin 'sillybun/vim-repl'
-
+"Plugin 'sillybun/vim-repl'
+Plugin 'jiangmiao/auto-pairs'
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
+Plugin 'powerline/powerline'
 call vundle#end()
 
 autocmd! bufwritepost vimrc source ~/.vim_runtime/vimrc
@@ -124,27 +144,27 @@ let NERDTreeMinimalUI = 1
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
 "You Complete Me
-set completeopt=longest,menu
-autocmd InsertLeave * if pumvisible() == 0|pclose|endif 
-inoremap <expr> <CR>       pumvisible() ? "\<C-y>" : "\<CR>"
-inoremap <expr> <Down>     pumvisible() ? "\<C-n>" : "\<Down>"
-inoremap <expr> <Up>       pumvisible() ? "\<C-p>" : "\<Up>"
-inoremap <expr> <PageDown> pumvisible() ? "\<PageDown>\<C-p>\<C-n>" : "\<PageDown>"
-inoremap <expr> <PageUp>   pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<PageUp>"
+"set completeopt=longest,menu
+"autocmd InsertLeave * if pumvisible() == 0|pclose|endif 
+"inoremap <expr> <CR>       pumvisible() ? "\<C-y>" : "\<CR>"
+"inoremap <expr> <Down>     pumvisible() ? "\<C-n>" : "\<Down>"
+"inoremap <expr> <Up>       pumvisible() ? "\<C-p>" : "\<Up>"
+"inoremap <expr> <PageDown> pumvisible() ? "\<PageDown>\<C-p>\<C-n>" : "\<PageDown>"
+"inoremap <expr> <PageUp>   pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<PageUp>"
 "nnoremap <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR>
 "nnoremap <F6> :YcmForceCompileAndDiagnostics<CR>    "force recomile with syntastic
-" nnoremap <leader>lo :lopen<CR>    "open locationlist
-" nnoremap <leader>lc :lclose<CR>   "close locationlist
+"nnoremap <leader>lo :lopen<CR>    "open locationlist
+"nnoremap <leader>lc :lclose<CR>   "close locationlist
 "inoremap <leader><leader> <C-x><C-o>
 "let g:ycm_global_ycm_extra_conf = '~/.vim/.ycm_extra_conf.py'
 "let g:ycm_confirm_extra_conf=0
-let g:ycm_cache_omnifunc=0
-let g:ycm_collect_identifiers_from_tags_files=1
-let g:ycm_collect_identifiers_from_comments_and_strings = 0
-let g:ycm_min_num_of_chars_for_completion=4
-let g:ycm_seed_identifiers_with_syntax=1
-let g:ycm_complete_in_comments = 1
-let g:ycm_complete_in_strings = 1
+"let g:ycm_cache_omnifunc=0
+"let g:ycm_collect_identifiers_from_tags_files=1
+"let g:ycm_collect_identifiers_from_comments_and_strings = 0
+"let g:ycm_min_num_of_chars_for_completion=4
+"let g:ycm_seed_identifiers_with_syntax=1
+"let g:ycm_complete_in_comments = 1
+"let g:ycm_complete_in_strings = 1
 "let g:ycm_filetype_blacklist = {
 "      \ 'tagbar' : 1,
 "      \ 'nerdtree' : 1,
@@ -158,55 +178,8 @@ let g:ycm_complete_in_strings = 1
 "let g:UltiSnipsSnippetDirectories=["bundle/vim-snippets/UltiSnips"]
 
 " bracket
-inoremap ( ()<LEFT>
-inoremap [ []<LEFT>
-inoremap { {}<LEFT>
-inoremap " ""<LEFT>
-inoremap ' ''<LEFT>
-inoremap < <><LEFT>
 
-function! RemovePairs()
-    let s:line = getline(".")
-    let s:previous_char = s:line[col(".")-1]
-
-    if index(["(","[","{"],s:previous_char) != -1
-        let l:original_pos = getpos(".")
-        execute "normal %"
-        let l:new_pos = getpos(".")
-        " only right (
-        if l:original_pos == l:new_pos
-            execute "normal! a\<BS>"
-            return
-        end
-
-        let l:line2 = getline(".")
-        if len(l:line2) == col(".")
-            execute "normal! v%xa"
-        else
-            execute "normal! v%xi"
-        end
-    else
-        execute "normal! a\<BS>"
-    end
-endfunction
-
-function! RemoveNextDoubleChar(char)
-    let l:line = getline(".")
-    let l:next_char = l:line[col(".")]
-
-    if a:char == l:next_char
-        execute "normal! l"
-    else
-        execute "normal! i" . a:char . ""
-    end
-endfunction
-
-inoremap <BS> <ESC>:call RemovePairs()<CR>a
-inoremap ) <ESC>:call RemoveNextDoubleChar(')')<CR>a
-inoremap ] <ESC>:call RemoveNextDoubleChar(']')<CR>a
-inoremap } <ESC>:call RemoveNextDoubleChar('}')<CR>a
-inoremap > <ESC>:call RemoveNextDoubleChar('>')<CR>a
 
 " Terminal
-set termwinsize=10x80
+set termwinsize=10*80
 cnoremap term bel term
