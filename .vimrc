@@ -36,6 +36,7 @@ set ignorecase
 set smartcase
 set incsearch
 
+set hidden
 set clipboard=unnamed
 set nostartofline
 set nofoldenable
@@ -43,6 +44,10 @@ set backspace=indent,eol,start
 set clipboard=unnamed
 set relativenumber
 
+set wildmenu
+set scrolloff=1
+set display+=lastline
+set nomodeline
 set noshowmode
 set background=dark
 set history=1000
