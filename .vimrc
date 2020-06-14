@@ -45,7 +45,7 @@ set clipboard=unnamed
 set relativenumber
 
 set wildmenu
-set scrolloff=1
+set scrolloff=5
 set display+=lastline
 set nomodeline
 set noshowmode
@@ -53,9 +53,13 @@ set background=dark
 set history=1000
 set linespace=3
 set guifont=Menlo:h15
-"set guifont=SF_Mono:h14
+set transparency=8
+set blur=10
+
 set guioptions=
-colorscheme space-vim-dark
+colorscheme elvis-space-vim
+"colorscheme space-vim-dark
+"colorscheme spacemacs-theme
 "colorscheme onedark
 "let g:lightline = {
 "      \ 'colorscheme': 'one',
@@ -69,10 +73,6 @@ colorscheme space-vim-dark
 "      \ }
 let g:airline_theme='base16_spacemacs'
 "let g:airline_powerline_fonts=1
-
-
-
-
 
 
 "C indentation style and syntax highlighting for c, c++, and c0 files
@@ -93,6 +93,7 @@ autocmd FileType py set shiftwidth=4
 autocmd FileType py set expandtab
 autocmd FileType py setf python
 autocmd BufEnter,BufRead,BufNewFile *.py    set iskeyword-=:
+let g:python_highlight_all=1
 
 "Set up Vundle
 set rtp+=~/.vim/bundle/Vundle.vim
@@ -110,39 +111,48 @@ Plugin 'vim-latex/vim-latex'
 Plugin 'lervag/vimtex'
 
 Plugin 'Valloric/YouCompleteMe'
-Plugin 'itchyny/lightline.vim'
+"Plugin 'itchyny/lightline.vim'
 Plugin 'rakr/vim-two-firewatch'
-" Plugin 'liuchengxu/space-vim-dark'
+
+"Bundle 'sonph/onehalf', {'rtp':'vim/'}
+"Plugin 'liuchengxu/space-vim-dark'
 "Plugin 'sillybun/vim-repl'
 Plugin 'jiangmiao/auto-pairs'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
-Plugin 'powerline/powerline'
+"Plugin 'powerline/powerline'
+Plugin 'preservim/nerdcommenter'
+Plugin 'sheerun/vim-polyglot'
+Plugin 'vim-python/python-syntax'
 call vundle#end()
 
 autocmd! bufwritepost vimrc source ~/.vim_runtime/vimrc
+
 
 "LaTeX
 set shellslash
 set grepprg=grep\ -nH\ $*
 let g:tex_flavor='latex'
 set sw=2
-set iskeyword+=:
+autocmd BufEnter,BufRead,BufNewFile *.tex   set iskeyword+=:
 autocmd Filetype tex setl updatetime=1000
 let g:livepreview_previewer='open -a Preview'
+
 
 "You Complete Me
 let g:ycm_global_ycm_extra_conf='~/.ycm_extra_conf.py'
 set completeopt=longest,menu
 autocmd InsertLeave * if pumvisible() == 0 | pclose | endif
 
+
 "Auto Enter NERDTree
 if has('gui_running')
     autocmd vimenter * NERDTree
     autocmd vimenter * wincmd p
-    let g:NERDTreeWinSize = 40
-else
-    let g:NERDTreeWinSize = 20
+    let g:NERDTreeWinSize = 30
+    let g:NERDTreeWinPos = "right"
+  else
+    let g:NERDTreeWinSize = 15
 endif
 map <C-f> :NERDTreeToggle<CR>
 let NERDTreeMinimalUI = 1
@@ -184,7 +194,19 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isT
 
 " bracket
 
+" Set GUI size
+if has('gui_running')
+    set lines=40
+    set columns=150
+endif
 
 " Terminal
-set termwinsize=10*80
+" Set terminal size
+set termwinsize=10x120
+" Automatically open terminal below
 cnoremap term bel term
+
+
+" Airline
+autocmd bufenter let g:airline_exclude_preview=0
+
