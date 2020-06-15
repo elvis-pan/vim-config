@@ -111,12 +111,7 @@ Plugin 'vim-latex/vim-latex'
 Plugin 'lervag/vimtex'
 
 Plugin 'Valloric/YouCompleteMe'
-"Plugin 'itchyny/lightline.vim'
-Plugin 'rakr/vim-two-firewatch'
 
-"Bundle 'sonph/onehalf', {'rtp':'vim/'}
-"Plugin 'liuchengxu/space-vim-dark'
-"Plugin 'sillybun/vim-repl'
 Plugin 'jiangmiao/auto-pairs'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
@@ -124,6 +119,8 @@ Plugin 'vim-airline/vim-airline-themes'
 Plugin 'preservim/nerdcommenter'
 Plugin 'sheerun/vim-polyglot'
 Plugin 'vim-python/python-syntax'
+Plugin 'mhinz/vim-startify'
+Plugin 'liuchengxu/vista.vim'
 call vundle#end()
 
 autocmd! bufwritepost vimrc source ~/.vim_runtime/vimrc
@@ -139,13 +136,10 @@ autocmd Filetype tex setl updatetime=1000
 let g:livepreview_previewer='open -a Preview'
 
 
-"You Complete Me
-let g:ycm_global_ycm_extra_conf='~/.ycm_extra_conf.py'
-set completeopt=longest,menu
-autocmd InsertLeave * if pumvisible() == 0 | pclose | endif
 
 
-"Auto Enter NERDTree
+" NERDTree
+" Auto Enter NERDTree and windows size
 if has('gui_running')
     autocmd vimenter * NERDTree
     autocmd vimenter * wincmd p
@@ -154,13 +148,23 @@ if has('gui_running')
   else
     let g:NERDTreeWinSize = 15
 endif
-map <C-f> :NERDTreeToggle<CR>
+" Entering NERDTree with <Ctrl>-n
+map <C-n> :NERDTreeToggle<CR>
 let NERDTreeMinimalUI = 1
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
+" NERDTress File highlighting
+function! NERDTreeHighlightFile(extension, fg, bg, guifg, guibg)
+ exec 'autocmd filetype nerdtree highlight ' . a:extension .' ctermbg='. a:bg .' ctermfg='. a:fg .' guibg='. a:guibg .' guifg='. a:guifg
+ exec 'autocmd filetype nerdtree syn match ' . a:extension .' #^\s\+.*'. a:extension .'$#'
+endfunction
+
+call NERDTreeHighlightFile('md', 'Yellow', 'none', 'Yellow', '#262626')
+
 "You Complete Me
-"set completeopt=longest,menu
-"autocmd InsertLeave * if pumvisible() == 0|pclose|endif 
+let g:ycm_global_ycm_extra_conf='~/.ycm_extra_conf.py'
+set completeopt=longest,menu
+autocmd InsertLeave * if pumvisible() == 0 | pclose | endif
 "inoremap <expr> <CR>       pumvisible() ? "\<C-y>" : "\<CR>"
 "inoremap <expr> <Down>     pumvisible() ? "\<C-n>" : "\<Down>"
 "inoremap <expr> <Up>       pumvisible() ? "\<C-p>" : "\<Up>"
@@ -171,21 +175,21 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isT
 "nnoremap <leader>lo :lopen<CR>    "open locationlist
 "nnoremap <leader>lc :lclose<CR>   "close locationlist
 "inoremap <leader><leader> <C-x><C-o>
-"let g:ycm_global_ycm_extra_conf = '~/.vim/.ycm_extra_conf.py'
-"let g:ycm_confirm_extra_conf=0
-"let g:ycm_cache_omnifunc=0
-"let g:ycm_collect_identifiers_from_tags_files=1
-"let g:ycm_collect_identifiers_from_comments_and_strings = 0
-"let g:ycm_min_num_of_chars_for_completion=4
-"let g:ycm_seed_identifiers_with_syntax=1
-"let g:ycm_complete_in_comments = 1
-"let g:ycm_complete_in_strings = 1
-"let g:ycm_filetype_blacklist = {
-"      \ 'tagbar' : 1,
-"      \ 'nerdtree' : 1,
-"      \}
-"let g:ycm_key_list_select_completion = ['<Down>']
-"let g:ycm_key_list_previous_completion = ['<Up>']
+let g:ycm_global_ycm_extra_conf = '~/.vim/.ycm_extra_conf.py'
+let g:ycm_confirm_extra_conf=0
+let g:ycm_cache_omnifunc=0
+let g:ycm_collect_identifiers_from_tags_files=1
+let g:ycm_collect_identifiers_from_comments_and_strings = 0
+let g:ycm_min_num_of_chars_for_completion=2
+let g:ycm_seed_identifiers_with_syntax=1
+let g:ycm_complete_in_comments = 1
+let g:ycm_complete_in_strings = 1
+let g:ycm_filetype_blacklist = {
+    \ 'tagbar' : 1,
+    \ 'nerdtree' : 1,
+    \}
+let g:ycm_key_list_select_completion = ['<Down>']
+let g:ycm_key_list_previous_completion = ['<Up>']
 "let g:ycm_key_invoke_completion = '<M-;>'
 "let g:UltiSnipsJumpForwardTrigger="<tab>"
 "let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
@@ -210,3 +214,56 @@ cnoremap term bel term
 " Airline
 autocmd bufenter let g:airline_exclude_preview=0
 
+
+" Vim Startify
+" returns all modified files of the current git repo
+" `2>/dev/null` makes the command fail quietly, so that when we are not
+" in a git repo, the list will be empty
+function! s:gitModified()
+    let files = systemlist('git ls-files -m 2>/dev/null')
+    return map(files, "{'line': v:val, 'path': v:val}")
+endfunction
+
+" same as above, but show untracked files, honouring .gitignore
+function! s:gitUntracked()
+    let files = systemlist('git ls-files -o --exclude-standard 2>/dev/null')
+    return map(files, "{'line': v:val, 'path': v:val}")
+endfunction
+
+" list of startify
+let g:startify_lists = [
+        \ { 'type': 'files',     'header': ['   MRU']            },
+        \ { 'type': 'dir',       'header': ['   MRU '. getcwd()] },
+        \ { 'type': 'sessions',  'header': ['   Sessions']       },
+        \ { 'type': 'bookmarks', 'header': ['   Bookmarks']      },
+        \ { 'type': function('s:gitModified'),  'header': ['   git modified']},
+        \ { 'type': function('s:gitUntracked'), 'header': ['   git untracked']},
+        \ { 'type': 'commands',  'header': ['   Commands']       },
+        \ ]
+
+let s:header = [
+    \ '        _          __             ',
+    \ '  ___  | |   _   _/_/ ____   ____ ',
+    \ ' / _ \ | |  | |/ /| |/ __/  / __ \',
+    \ '|  __/ | |_ | | / | |\__ \  | ___/',
+    \ ' \___|  \__||__/  |_||___/  | |   ',
+    \ '                            |_|   ',
+    \ '  My Heart is in the work!        ',
+    \ ]
+
+let s:footer = [
+    \ '+----------------------------------+',
+    \ '|           Elvis Pan              |',
+    \ '|    Carnegie Mellon University    |',
+    \ '+----------------------------------+',
+    \ ]
+
+function! s:center(lines) abort
+  let longest_line   = max(map(copy(a:lines), 'strwidth(v:val)'))
+  let centered_lines = map(copy(a:lines),
+        \ 'repeat(" ", ((&columns - 30) / 2) - (longest_line / 2)) . v:val')
+  return centered_lines
+endfunction
+
+let g:startify_custom_header = s:center(s:header)
+let g:startify_custom_footer = s:center(s:footer)
