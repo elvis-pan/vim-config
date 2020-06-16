@@ -75,28 +75,41 @@ let g:airline_theme='base16_spacemacs'
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
+" Git
 Plugin 'tpope/vim-fugitive'
 Plugin 'git://git.wincent.com/command-t.git'
 Plugin 'rstacruz/sparkup', {'rtp':'vim/'}
 
+" LaTeX
 Plugin 'xuhdev/vim-latex-live-preview'
-
-Plugin 'scrooloose/nerdtree'
-
 Plugin 'vim-latex/vim-latex'
 Plugin 'lervag/vimtex'
 
-Plugin 'Valloric/YouCompleteMe'
+" NERDTree
+Plugin 'scrooloose/nerdtree'
 
+" Auto Complete and parentheses
+Plugin 'Valloric/YouCompleteMe'
 Plugin 'jiangmiao/auto-pairs'
+Plugin 'luochen1990/rainbow'
+
+" Statusline
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
-"Plugin 'powerline/powerline'
 Plugin 'preservim/nerdcommenter'
+
+" Syntax
 Plugin 'sheerun/vim-polyglot'
 Plugin 'vim-python/python-syntax'
+Plugin 'dense-analysis/ale'
+
+" Start page
 Plugin 'mhinz/vim-startify'
+
+" Sidebar
 Plugin 'liuchengxu/vista.vim'
+Plugin 'severin-lemaignan/vim-minimap'
+
 call vundle#end()
 
 autocmd! bufwritepost vimrc source ~/.vim_runtime/vimrc
@@ -252,13 +265,13 @@ let g:startify_lists = [
 
 " Fancy header for Startify
 let s:header = [
-        \ '        _          __             ',
-        \ '  ___  | |   _   _/_/ ____   ____ ',
-        \ ' / _ \ | |  | |/ /| |/ __/  / __ \',
-        \ '|  __/ | |_ | | / | |\__ \  | ___/',
-        \ ' \___|  \__||__/  |_||___/  | |   ',
-        \ '                            |_|   ',
-        \ '  My Heart is in the work!        ',
+        \ '  __________ /|         __       _______               ',
+        \ '   \\  ____// |  ___ __/_/ ____ // ___ /_____________  ',
+        \ '   || |____|| | || |/ /| |/ __/ || |_| ||__  \\ |__ /  ',
+        \ '   ||  ____|| |_|| | /|| |\__ \ || |___// _  || | | |  ',
+        \ '   || |_____\\__/\\_/  \\|/___/ || |   \\____|\_| | |  ',
+        \ '   \\_________/                 || |               \|  ',
+        \ '                                ||/                    ',
         \ ]
 
 " Fancy footer for Startify
@@ -266,6 +279,8 @@ let s:footer = [
         \ '+----------------------------------+',
         \ '|           Elvis Pan              |',
         \ '|    Carnegie Mellon University    |',
+        \ '|                                  |',
+        \ '|     My heart is in the work!     |',
         \ '+----------------------------------+',
         \ ]
 
@@ -279,3 +294,14 @@ function! s:center(lines) abort
 endfunction
 let g:startify_custom_header = s:center(s:header)
 let g:startify_custom_footer = s:center(s:footer)
+
+
+" Rainbow
+let g:rainbow_active = 1
+let g:rainbow_conf = {
+\	'guifgs': ['LightBlue', 'Cyan', 'DarkCyan', 'DarkGreen'],
+\	'ctermfgs': ['LightBlue', 'Cyan', 'DarkCyan', 'DarkGreen'],
+\	'guis': [''],
+\	'cterms': [''],
+\}
+
