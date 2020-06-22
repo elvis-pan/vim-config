@@ -4,9 +4,9 @@
 
 " Basic configurations
 syntax on
-set nocompatible
+"set nocompatible
 set encoding=utf-8
-set t_Co=256
+"set t_Co=256
 set termguicolors
 set number
 set showmode
@@ -101,8 +101,9 @@ Plugin 'preservim/nerdcommenter'
 
 " Syntax
 Plugin 'sheerun/vim-polyglot'
-Plugin 'vim-python/python-syntax'
+" Plugin 'vim-python/python-syntax'
 " Plugin 'dense-analysis/ale'
+Plugin 'numirias/semshi'
 
 " Start page
 Plugin 'mhinz/vim-startify'
@@ -136,7 +137,7 @@ autocmd FileType py set shiftwidth=4
 autocmd FileType py set expandtab
 autocmd FileType py setf python
 autocmd BufEnter,BufRead,BufNewFile *.py    set iskeyword-=:
-let g:python_highlight_all=1
+"let g:python_highlight_all=1
 
 
 " LaTeX setup
@@ -411,3 +412,7 @@ nnoremap <silent><nowait> <space>k  :<C-u>CocPrev<CR>
 nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
 
 autocmd FileType json syntax match Comment +\/\/.\+$+
+
+
+" Python functions
+syntax match pythonFunction /\v([^[:cntrl:][:space:][:punct:][:digit:]]|_)([^[:cntrl:][:punct:][:space:]]|_)*\ze(\s?\()/
