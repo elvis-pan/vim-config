@@ -43,7 +43,11 @@ set nostartofline
 set nofoldenable
 set backspace=indent,eol,start
 set clipboard=unnamed
+
+" Toggle between relative number and no relative number
 set relativenumber
+autocmd InsertEnter * :set norelativenumber
+autocmd InsertLeave * :set relativenumber 
 
 set wildmenu
 set scrolloff=5
@@ -54,11 +58,14 @@ set background=dark
 set history=1000
 set linespace=3
 
+let g:Powerline_symbols='unicode'
+set fillchars+=stl:\ ,stlnc:\
+set termencoding=utf-8
+
+
 " GUI setup
-set guifont=Menlo:h15
-" set transparency=8
-" set blur=10
 if has('gui_running')
+    set guifont=MesloLGS\ Nerd\ Font:h15
     set lines=40
     set columns=150
 endif
@@ -67,9 +74,6 @@ set guioptions=
 " Colorscheme
 colorscheme elvis-space-vim
 let g:airline_theme='base16_spacemacs'
-
-
-
 
 
 "Set up Vundle
@@ -90,7 +94,6 @@ Plugin 'lervag/vimtex'
 Plugin 'scrooloose/nerdtree'
 
 " Auto Complete and parentheses
-" Plugin 'Valloric/YouCompleteMe'
 Plugin 'jiangmiao/auto-pairs'
 Plugin 'luochen1990/rainbow'
 
@@ -101,19 +104,21 @@ Plugin 'preservim/nerdcommenter'
 
 " Syntax
 Plugin 'sheerun/vim-polyglot'
-" Plugin 'vim-python/python-syntax'
-" Plugin 'dense-analysis/ale'
 Plugin 'numirias/semshi'
+Plugin 'arakashic/chromatica.nvim'
 
 " Start page
 Plugin 'mhinz/vim-startify'
 
 " Sidebar
 Plugin 'liuchengxu/vista.vim'
-" Plugin 'severin-lemaignan/vim-minimap'
+Plugin 'severin-lemaignan/vim-minimap'
 
 " CoC
 Plugin 'neoclide/coc.nvim', {'branch': 'release'}
+
+" Plugin 'Valloric/YouCompleteMe' " Installing this is so hard
+
 call vundle#end()
 
 autocmd! bufwritepost vimrc source ~/.vim_runtime/vimrc
@@ -121,14 +126,15 @@ autocmd! bufwritepost vimrc source ~/.vim_runtime/vimrc
 
 " Indentation
 " C indentation style and syntax highlighting for c, c0, and c1 files
-autocmd FileType c set cindent
-autocmd FileType c setf c
-autocmd FileType c set expandtab
-au BufEnter *.c0 set cindent
-au BufEnter *.c0 set expandtab
+" autocmd FileType c set cindent
+" autocmd FileType c setf c
+" autocmd FileType c set expandtab
+autocmd FileType c set shiftwidth=4
+" au BufEnter *.c0 set cindent
+" au BufEnter *.c0 set expandtab
 au BufRead,BufNewFile *.c0 set filetype=c0
-au BufEnter *.c1 set cindent
-au BufEnter *.c1 set expandtab
+" au BufEnter *.c1 set cindent
+" au BufEnter *.c1 set expandtab
 au BufRead,BufNewFile *.c1 set filetype=c0
 
 " Python indentation style ...
@@ -137,7 +143,6 @@ autocmd FileType py set shiftwidth=4
 autocmd FileType py set expandtab
 autocmd FileType py setf python
 autocmd BufEnter,BufRead,BufNewFile *.py    set iskeyword-=:
-"let g:python_highlight_all=1
 
 
 " LaTeX setup
@@ -187,16 +192,14 @@ autocmd bufenter * if winnr("$") == 1 && vista#sidebar#IsOpen() | execute "norma
 map <C-v> :Vista!!<CR>
 
 " Icons of vista
+let g:vista_icon_indent = ["╰─▸ ", "├─▸ "]
 let g:vista#renderer#enable_icon = 1
-let g:vista#renderer#icons = {
-\   "function": "",
-\   "variable": "",
-\  }
+
 
 
 "Airline
 autocmd bufenter * let g:airline_exclude_preview = 0
-
+"let g:airline_powerline_fonts = 1
 
 " Vim Startify
 " returns all modified files of the current git repo
@@ -416,3 +419,8 @@ autocmd FileType json syntax match Comment +\/\/.\+$+
 
 " Python functions
 syntax match pythonFunction /\v([^[:cntrl:][:space:][:punct:][:digit:]]|_)([^[:cntrl:][:punct:][:space:]]|_)*\ze(\s?\()/
+
+
+" Auto-Pair Keymaps
+let g:AutoPairsShortcutToggle = '<M-a>' " To avoid conflict with <Esc> to normal and p to paste
+
