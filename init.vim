@@ -92,6 +92,8 @@ Plugin 'lervag/vimtex'
 
 " NERDTree
 Plugin 'scrooloose/nerdtree'
+Plugin 'ryanoasis/vim-devicons'
+
 
 " Auto Complete and parentheses
 Plugin 'jiangmiao/auto-pairs'
@@ -158,7 +160,7 @@ let g:livepreview_previewer='open -a Preview'
 
 " NERDTree
 let g:NERDTreeWinSize=30
-let g:NERDTreeWinPos="right"
+let g:NERDTreeWinPos="left"
 
 " Entering NERDTree with <Ctrl>-n
 map <C-n> :NERDTreeToggle<CR>
@@ -182,8 +184,8 @@ function! NearestMethodOrFunction() abort
 endfunction
 
 " Position at left
-let g:vista_sidebar_position = 'vertical topleft'
-let g:vista_sidebar_width = 30
+" let g:vista_sidebar_position = 'vertical topleft'
+let g:vista_sidebar_width = 40
 
 " Quit if no other window left
 autocmd bufenter * if winnr("$") == 1 && vista#sidebar#IsOpen() | execute "normal! :q!\<CR>" | endif
@@ -197,9 +199,33 @@ let g:vista#renderer#enable_icon = 1
 
 
 
-"Airline
+
+
+
+" Airline
 autocmd bufenter * let g:airline_exclude_preview = 0
-"let g:airline_powerline_fonts = 1
+let g:airline_powerline_fonts = 1
+
+" Symbols
+if !exists('g:airline_symbols')
+  let g:airline_symbols = {}
+endif
+
+let g:airline_left_sep = ''
+let g:airline_right_sep = ''
+let g:airline_symbols.branch = ''
+let g:airline_symbols.readonly = ''
+" let g:airline_symbols.linenr = ''
+
+" Tabline in Airline
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#left_sep = ' '
+let g:airline#extensions#tabline#left_alt_sep = '|'
+let g:airline#extensions#tabline#formatter = 'default'
+
+
+
+
 
 " Vim Startify
 " returns all modified files of the current git repo
