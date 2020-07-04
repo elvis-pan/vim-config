@@ -160,7 +160,7 @@ let g:livepreview_previewer='open -a Preview'
 
 " NERDTree
 let g:NERDTreeWinSize=30
-let g:NERDTreeWinPos="left"
+let g:NERDTreeWinPos="right"
 
 " Entering NERDTree with <Ctrl>-n
 map <C-n> :NERDTreeToggle<CR>
@@ -184,7 +184,7 @@ function! NearestMethodOrFunction() abort
 endfunction
 
 " Position at left
-" let g:vista_sidebar_position = 'vertical topleft'
+let g:vista_sidebar_position = 'vertical topleft'
 let g:vista_sidebar_width = 40
 
 " Quit if no other window left
@@ -222,7 +222,7 @@ let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#left_sep = ' '
 let g:airline#extensions#tabline#left_alt_sep = '|'
 let g:airline#extensions#tabline#formatter = 'default'
-
+map <C-b>   :bnext<CR>
 
 
 
