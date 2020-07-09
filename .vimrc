@@ -3,7 +3,7 @@
 
 " Basic configurations
 syntax on
-set nocompatible
+"set nocompatible
 set encoding=utf-8
 set t_Co=256
 set termguicolors
@@ -61,11 +61,9 @@ set shortmess+=c
 
 " GUI setup
 set guifont=Menlo:h15
-set transparency=8
-set blur=10
 if has('gui_running')
-    set lines=40
-    set columns=150
+    set lines=45
+    set columns=120
 endif
 set guioptions=
 
@@ -160,8 +158,8 @@ let g:polyglot_disabled = ['latex']
 " NERDTree
 " Auto Enter NERDTree and windows size
 if has('gui_running')
-    autocmd vimenter * NERDTree
-    autocmd vimenter * wincmd p
+"    autocmd vimenter * NERDTree
+"    autocmd vimenter * wincmd p
     let g:NERDTreeWinSize=30
     let g:NERDTreeWinPos="right"
   else
@@ -319,6 +317,18 @@ let g:rainbow_conf = {
 \	'cterms': [''],
 \}
 
+
+
+
+" Some useful shortcuts
+" Spell check with <Ctrl>-s-c
+map <C-s-c>: set spell!<CR>
+
+
+
+
+
+
 " Coc configurations
 " Always show the signcolumn, otherwise it would shift the text each time
 " diagnostics appear/become resolved.
@@ -452,3 +462,5 @@ nnoremap <silent><nowait> <space>j  :<C-u>CocNext<CR>
 nnoremap <silent><nowait> <space>k  :<C-u>CocPrev<CR>
 " Resume latest coc list.
 nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
+
+autocmd FileType json syntax match Comment +\/\/.\+$+
