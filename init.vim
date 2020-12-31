@@ -1,4 +1,3 @@
-
 " The Vim Configuration of Elvis Pan
 " For personal use only
 
@@ -68,15 +67,6 @@ let g:Powerline_symbols='unicode'
 set fillchars+=stl:\ ,stlnc:\
 set termencoding=utf-8
 
-
-" GUI setup
-if has('gui_running')
-    set guifont=MesloLGS\ Nerd\ Font:h15
-    set lines=40
-    set columns=150
-endif
-set guioptions=
-
 " Colorscheme
 colorscheme one
 " let g:airline_theme='one'
@@ -84,6 +74,15 @@ colorscheme one
 " let g:airline_theme='violet'
 " colorscheme elvis-space-vim
 let g:airline_theme='base16_spacemacs'
+
+
+" GUI setup
+if has('gui_running')
+  " set guifont=MesloLGS\ Nerd\ Font:h15
+  " set lines=40
+  " set columns=150
+endif
+set guioptions=
 
 
 "Set up Vundle
@@ -149,6 +148,7 @@ autocmd! bufwritepost vimrc source ~/.vim_runtime/vimrc
 " autocmd FileType c setf c
 " autocmd FileType c set expandtab
 autocmd FileType c set shiftwidth=4
+autocmd FileType cpp set shiftwidth=4
 " au BufEnter *.c0 set cindent
 " au BufEnter *.c0 set expandtab
 au BufRead,BufNewFile *.c0 set filetype=c0
@@ -177,7 +177,7 @@ let g:livepreview_previewer='open -a Preview'
 
 " NERDTree
 let g:NERDTreeWinSize=30
-let g:NERDTreeWinPos="right"
+let g:NERDTreeWinPos="left"
 
 " Entering NERDTree with <Ctrl>-n
 map <C-n> :NERDTreeToggle<CR>
@@ -214,7 +214,7 @@ function! NearestMethodOrFunction() abort
 endfunction
 
 " Position at left
-let g:vista_sidebar_position = 'vertical topleft'
+" let g:vista_sidebar_position = 'vertical topleft'
 let g:vista_sidebar_width = 30
 
 " Quit if no other window left
@@ -317,7 +317,7 @@ let g:startify_custom_footer = s:center(s:footer)
 
 
 " Rainbow
-let g:rainbow_active = 1
+let g:rainbow_active = 0
 let g:rainbow_conf = {
 \	'guifgs': ['LightBlue', 'Cyan', 'DarkCyan', 'DarkGreen'],
 \	'ctermfgs': ['LightBlue', 'Cyan', 'DarkCyan', 'DarkGreen'],

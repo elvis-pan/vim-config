@@ -5,7 +5,7 @@
 syntax on
 "set nocompatible
 set encoding=utf-8
-set t_Co=256
+"set t_Co=256
 set termguicolors
 set number
 set showmode
@@ -42,96 +42,116 @@ set nostartofline
 set nofoldenable
 set backspace=indent,eol,start
 set clipboard=unnamed
-set relativenumber
-set nobackup
-set nowritebackup
 
-set cmdheight=2
+" Toggle between relative number and no relative number
+set relativenumber
+autocmd InsertEnter * :set norelativenumber
+autocmd InsertLeave * :set relativenumber 
+
 set wildmenu
 set scrolloff=5
 set display+=lastline
 set nomodeline
 set noshowmode
-set background=dark
+set background=light
 set history=1000
 set linespace=3
+
+set nobackup
+set nowritebackup
 set updatetime=300
 set shortmess+=c
+set signcolumn=yes
 
+let g:Powerline_symbols='unicode'
+set fillchars+=stl:\ ,stlnc:\
+set termencoding=utf-8
+
+" Colorscheme
+colorscheme one
+let g:airline_theme='one'
+" colorscheme space-vim-dark
+" let g:airline_theme='violet'
+" colorscheme elvis-space-vim
+" let g:airline_theme='base16_spacemacs'
 
 " GUI setup
-set guifont=Menlo:h15
 if has('gui_running')
-    set lines=45
-    set columns=120
+  set guifont=MesloLGS\ Nerd\ Font:h16
+  set lines=40
+  set columns=80
 endif
 set guioptions=
 
-" Colorscheme
-colorscheme elvis-space-vim
-let g:airline_theme='base16_spacemacs'
-
-
-
-
 
 "Set up Vundle
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-Plugin 'VundleVim/Vundle.vim'
+"set rtp+=~/.vim/bundle/Vundle.vim
+call plug#begin('~/.vim/plugged')
+" Plug 'VundleVim/Vundle.vim'
 " Git
-Plugin 'tpope/vim-fugitive'
-Plugin 'git://git.wincent.com/command-t.git'
-Plugin 'rstacruz/sparkup', {'rtp':'vim/'}
+Plug 'tpope/vim-fugitive'
+Plug 'git://git.wincent.com/command-t.git'
+Plug 'rstacruz/sparkup', {'rtp':'vim/'}
 
 " LaTeX
-Plugin 'xuhdev/vim-latex-live-preview'
-Plugin 'vim-latex/vim-latex'
-Plugin 'lervag/vimtex'
+" Plug 'xuhdev/vim-latex-live-preview'
+Plug 'vim-latex/vim-latex'
+Plug 'lervag/vimtex'
 
 " NERDTree
-Plugin 'scrooloose/nerdtree'
+Plug 'scrooloose/nerdtree'
+Plug 'ryanoasis/vim-devicons'
+
 
 " Auto Complete and parentheses
-" Plugin 'Valloric/YouCompleteMe'
-Plugin 'jiangmiao/auto-pairs'
-Plugin 'luochen1990/rainbow'
+Plug 'jiangmiao/auto-pairs'
+Plug 'luochen1990/rainbow'
 
 " Statusline
-Plugin 'vim-airline/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
-Plugin 'preservim/nerdcommenter'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'preservim/nerdcommenter'
 
 " Syntax
-Plugin 'sheerun/vim-polyglot'
-Plugin 'vim-python/python-syntax'
-" Plugin 'dense-analysis/ale'
+" Plug 'dense-analysis/ale'
+Plug 'sheerun/vim-polyglot'
+Plug 'numirias/semshi'
+Plug 'arakashic/chromatica.nvim'
+Plug 'jackguo380/vim-lsp-cxx-highlight'
+Plug 'octol/vim-cpp-enhanced-highlight'
+Plug 'jez/vim-better-sml'
 
 " Start page
-Plugin 'mhinz/vim-startify'
+Plug 'mhinz/vim-startify'
 
 " Sidebar
-Plugin 'liuchengxu/vista.vim'
-" Plugin 'severin-lemaignan/vim-minimap'
+Plug 'liuchengxu/vista.vim'
+Plug 'severin-lemaignan/vim-minimap'
 
 " CoC
-Plugin 'neoclide/coc.nvim', {'branch': 'release', 'do': { -> coc#util#install()}}
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
-call vundle#end()
+" Plugin 'Valloric/YouCompleteMe' " Installing this is so hard
+
+" Markdown
+Plug 'iamcco/markdown-preview.nvim', {'do': 'cd app & yarn install'}
+
+call plug#end()
 
 autocmd! bufwritepost vimrc source ~/.vim_runtime/vimrc
 
 
 " Indentation
 " C indentation style and syntax highlighting for c, c0, and c1 files
-autocmd FileType c set cindent
-autocmd FileType c setf c
-autocmd FileType c set expandtab
-au BufEnter *.c0 set cindent
-au BufEnter *.c0 set expandtab
+" autocmd FileType c set cindent
+" autocmd FileType c setf c
+" autocmd FileType c set expandtab
+autocmd FileType c set shiftwidth=4
+" au BufEnter *.c0 set cindent
+" au BufEnter *.c0 set expandtab
 au BufRead,BufNewFile *.c0 set filetype=c0
-au BufEnter *.c1 set cindent
-au BufEnter *.c1 set expandtab
+" au BufEnter *.c1 set cindent
+" au BufEnter *.c1 set expandtab
 au BufRead,BufNewFile *.c1 set filetype=c0
 
 " Python indentation style ...
@@ -140,7 +160,6 @@ autocmd FileType py set shiftwidth=4
 autocmd FileType py set expandtab
 autocmd FileType py setf python
 autocmd BufEnter,BufRead,BufNewFile *.py    set iskeyword-=:
-let g:python_highlight_all=1
 
 
 " LaTeX setup
@@ -151,20 +170,12 @@ set sw=2
 autocmd BufEnter,BufRead,BufNewFile *.tex   set iskeyword+=:
 autocmd Filetype tex setl updatetime=1000
 let g:livepreview_previewer='open -a Preview'
-" Conflict between LaTeX-Box(vim-polyglot) and vimtex
-let g:polyglot_disabled = ['latex']
+
 
 
 " NERDTree
-" Auto Enter NERDTree and windows size
-if has('gui_running')
-"    autocmd vimenter * NERDTree
-"    autocmd vimenter * wincmd p
-    let g:NERDTreeWinSize=30
-    let g:NERDTreeWinPos="right"
-  else
-    let g:NERDTreeWinSize=15
-endif
+let g:NERDTreeWinSize=30
+let g:NERDTreeWinPos="right"
 
 " Entering NERDTree with <Ctrl>-n
 map <C-n> :NERDTreeToggle<CR>
@@ -180,45 +191,18 @@ endfunction
 " Highlighting of specific files
 call NERDTreeHighlightFile('md', 'Yellow', 'none', 'Yellow', '#262626')
 
-
-"You Complete Me
-let g:ycm_global_ycm_extra_conf='~/.ycm_extra_conf.py'
-set completeopt=longest,menu
-autocmd InsertLeave * if pumvisible() == 0 | pclose | endif
-"nnoremap <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR>
-"nnoremap <F6> :YcmForceCompileAndDiagnostics<CR>    "force recomile with syntastic
-"nnoremap <leader>lo :lopen<CR>    "open locationlist
-"nnoremap <leader>lc :lclose<CR>   "close locationlist
-"inoremap <leader><leader> <C-x><C-o>
-let g:ycm_global_ycm_extra_conf = '~/.vim/.ycm_extra_conf.py'
-let g:ycm_confirm_extra_conf = 0
-let g:ycm_cache_omnifunc = 0
-let g:ycm_collect_identifiers_from_tags_files = 1
-let g:ycm_collect_identifiers_from_comments_and_strings = 0
-let g:ycm_min_num_of_chars_for_completion = 2
-let g:ycm_seed_identifiers_with_syntax = 1
-let g:ycm_complete_in_comments = 1
-let g:ycm_complete_in_strings = 1
-let g:ycm_filetype_blacklist = {
-    \ 'tagbar' : 1,
-    \ 'nerdtree' : 1,
-    \}
-let g:ycm_key_list_select_completion = ['<Down>']
-let g:ycm_key_list_previous_completion = ['<Up>']
-"let g:ycm_key_invoke_completion = '<M-;>'
-"let g:UltiSnipsJumpForwardTrigger="<tab>"
-"let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
-"let g:UltiSnipsListSnippets="<c-e>"
-"let g:UltiSnipsSnippetDirectories=["bundle/vim-snippets/UltiSnips"]
-
-
-" Terminal
-" Set terminal size
-set termwinsize=10x0
-
-" Open terminal below with <Ctrl>-t
-" Automatically open terminal below
-map <C-t> :bel term<CR>
+let g:NERDTreeIndicatorMapCustom = {
+    \ "Modified"  : "✹ ",
+    \ "Staged"    : "✚ ",
+    \ "Untracked" : "✭ ",
+    \ "Renamed"   : "➜ ",
+    \ "Unmerged"  : "═ ",
+    \ "Deleted"   : "✖ ",
+    \ "Dirty"     : "✗ ",
+    \ "Clean"     : "✔︎ ",
+    \ 'Ignored'   : '☒ ',
+    \ "Unknown"   : "? "
+    \ }
 
 
 " Vista
@@ -238,15 +222,37 @@ autocmd bufenter * if winnr("$") == 1 && vista#sidebar#IsOpen() | execute "norma
 map <C-v> :Vista!!<CR>
 
 " Icons of vista
+let g:vista_icon_indent = ["╰─▸ ", "├─▸ "]
 let g:vista#renderer#enable_icon = 1
-let g:vista#renderer#icons = {
-\   "function": "",
-\   "variable": "",
-\  }
 
 
-"Airline
+
+
+
+
+" Airline
 autocmd bufenter * let g:airline_exclude_preview = 0
+let g:airline_powerline_fonts = 1
+
+" Symbols
+if !exists('g:airline_symbols')
+  let g:airline_symbols = {}
+endif
+
+let g:airline_left_sep = ''
+let g:airline_right_sep = ''
+let g:airline_symbols.branch = ''
+let g:airline_symbols.readonly = ''
+" let g:airline_symbols.linenr = ''
+
+" Tabline in Airline
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#left_sep = ' '
+let g:airline#extensions#tabline#left_alt_sep = '|'
+let g:airline#extensions#tabline#formatter = 'default'
+map <C-b>   :bnext<CR>
+
+
 
 
 " Vim Startify
@@ -301,7 +307,7 @@ let s:footer = [
 function! s:center(lines) abort
   let longest_line   = max(map(copy(a:lines), 'strwidth(v:val)'))
   let centered_lines = map(copy(a:lines),
-        \ 'repeat(" ", ((&columns - 30) / 2) - (longest_line / 2)) . v:val')
+        \ 'repeat(" ", (&columns / 2) - (longest_line / 2)) . v:val')
   return centered_lines
 endfunction
 let g:startify_custom_header = s:center(s:header)
@@ -309,12 +315,15 @@ let g:startify_custom_footer = s:center(s:footer)
 
 
 " Rainbow
-let g:rainbow_active = 1
+let g:rainbow_active = 0
 let g:rainbow_conf = {
 \	'guifgs': ['LightBlue', 'Cyan', 'DarkCyan', 'DarkGreen'],
 \	'ctermfgs': ['LightBlue', 'Cyan', 'DarkCyan', 'DarkGreen'],
 \	'guis': [''],
 \	'cterms': [''],
+\	'separately': {
+\		'nerdtree': 0,
+\	}
 \}
 
 
@@ -323,9 +332,7 @@ let g:rainbow_conf = {
 " Some useful shortcuts
 " Spell check with <Ctrl>-s-c
 map <C-s-c>: set spell!<CR>
-
-
-
+map <C-a>: ALEToggle<CR>
 
 
 
@@ -464,3 +471,148 @@ nnoremap <silent><nowait> <space>k  :<C-u>CocPrev<CR>
 nnoremap <silent><nowait> <space>p  :<C-u>CocListResume<CR>
 
 autocmd FileType json syntax match Comment +\/\/.\+$+
+
+
+" Python functions
+syntax match pythonFunction /\v([^[:cntrl:][:space:][:punct:][:digit:]]|_)([^[:cntrl:][:punct:][:space:]]|_)*\ze(\s?\()/
+
+
+" Auto-Pair Keymaps
+let g:AutoPairsShortcutToggle = '<M-a>' " To avoid conflict with <Esc> to normal and p to paste
+
+
+" CoC
+
+" Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+" Use `[c` and `]c` to navigate diagnostics
+nmap <silent> [c <Plug>(coc-diagnostic-prev)
+nmap <silent> ]c <Plug>(coc-diagnostic-next)
+
+" Remap keys for gotos
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+" Use K to show documentation in preview window
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
+
+" Highlight symbol under cursor on CursorHold
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
+" Remap for rename current word
+nmap <leader>rn <Plug>(coc-rename)
+
+" Remap for format selected region
+xmap <leader>f  <Plug>(coc-format-selected)
+nmap <leader>f  <Plug>(coc-format-selected)
+
+augroup mygroup
+  autocmd!
+  " Setup formatexpr specified filetype(s).
+  autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
+  " Update signature help on jump placeholder
+  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+augroup end
+
+" Remap for do codeAction of selected region, ex: `<leader>aap` for current paragraph
+xmap <leader>a  <Plug>(coc-codeaction-selected)
+nmap <leader>a  <Plug>(coc-codeaction-selected)
+
+" Remap for do codeAction of current line
+nmap <leader>ac  <Plug>(coc-codeaction)
+" Fix autofix problem of current line
+nmap <leader>qf  <Plug>(coc-fix-current)
+
+" Use <tab> for select selections ranges, needs server support, like: coc-tsserver, coc-python
+nmap <silent> <TAB> <Plug>(coc-range-select)
+xmap <silent> <TAB> <Plug>(coc-range-select)
+xmap <silent> <S-TAB> <Plug>(coc-range-select-backword)
+
+" Use `:Format` to format current buffer
+command! -nargs=0 Format :call CocAction('format')
+
+" Use `:Fold` to fold current buffer
+command! -nargs=? Fold :call     CocAction('fold', <f-args>)
+
+" use `:OR` for organize import of current buffer
+command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
+
+" Add status line support, for integration with other plugin, checkout `:h coc-status`
+set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
+
+" Using CocList
+" Show all diagnostics
+nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>
+" Manage extensions
+nnoremap <silent> <space>e  :<C-u>CocList extensions<cr>
+" Show commands
+nnoremap <silent> <space>c  :<C-u>CocList commands<cr>
+" Find symbol of current document
+nnoremap <silent> <space>o  :<C-u>CocList outline<cr>
+" Search workspace symbols
+nnoremap <silent> <space>s  :<C-u>CocList -I symbols<cr>
+" Do default action for next item.
+nnoremap <silent> <space>j  :<C-u>CocNext<CR>
+" Do default action for previous item.
+nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
+" Resume latest coc list
+nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
+
+let g:cpp_class_scope_highlight = 1
+let g:cpp_member_variable_highlight = 1
+let g:cpp_class_decl_highlight = 1
+let g:cpp_posix_standard = 1
+let g:cpp_experimental_simple_template_highlight = 1
+let g:cpp_experimental_template_highlight = 1
+
+augroup vimbettersml
+  au!
+
+  " ----- Keybindings -----
+
+  au FileType sml nnoremap <silent> <buffer> <leader>t :SMLTypeQuery<CR>
+  au FileType sml nnoremap <silent> <buffer> gd :SMLJumpToDef<CR>
+
+  " open the REPL terminal buffer
+  au FileType sml nnoremap <silent> <buffer> <leader>is :SMLReplStart<CR>
+  " close the REPL (mnemonic: k -> kill)
+  au FileType sml nnoremap <silent> <buffer> <leader>ik :SMLReplStop<CR>
+  " build the project (using CM if possible)
+  au FileType sml nnoremap <silent> <buffer> <leader>ib :SMLReplBuild<CR>
+  " for opening a structure, not a file
+  au FileType sml nnoremap <silent> <buffer> <leader>io :SMLReplOpen<CR>
+  " use the current file into the REPL (even if using CM)
+  au FileType sml nnoremap <silent> <buffer> <leader>iu :SMLReplUse<CR>
+  " clear the REPL screen
+  au FileType sml nnoremap <silent> <buffer> <leader>ic :SMLReplClear<CR>
+  " set the print depth to 100
+  au FileType sml nnoremap <silent> <buffer> <leader>ip :SMLReplPrintDepth<CR>
+
+  " ----- Other settings -----
+
+  " Uncomment to try out conceal characters
+  "au FileType sml setlocal conceallevel=2
+
+  " Uncomment to try out same-width conceal characters
+  "let g:sml_greek_tyvar_show_tick = 1
+augroup END
