@@ -1,5 +1,4 @@
-" The Vim Configuration of Elvis Pan
-" For personal use only
+" Yan Pan's vim config
 
 " Basic configurations
 syntax on
@@ -11,15 +10,16 @@ set number
 set showmode
 set mouse=a
 set selection=exclusive
-
 filetype on
 filetype plugin on
 filetype indent on
 set autoindent
+"set expandtab
 set tabstop=4
+set softtabstop=4
 set shiftwidth=4
-set expandtab
 set breakindent
+set noexpandtab
 
 set cursorline
 set autoread
@@ -37,11 +37,11 @@ set smartcase
 set incsearch
 
 set hidden
-set clipboard=unnamed
+" set clipboard=unnamed
 set nostartofline
-set nofoldenable
+set foldmethod=manual
+" set nofoldenable
 set backspace=indent,eol,start
-set clipboard=unnamed
 
 " Toggle between relative number and no relative number
 set relativenumber
@@ -61,19 +61,22 @@ set nobackup
 set nowritebackup
 set updatetime=300
 set shortmess+=c
-set signcolumn=yes
+set signcolumn=no
 
 let g:Powerline_symbols='unicode'
 set fillchars+=stl:\ ,stlnc:\
 set termencoding=utf-8
 
 " Colorscheme
-colorscheme one
+" colorscheme one
 " let g:airline_theme='one'
 " colorscheme space-vim-dark
+let g:sierra_Sunset = 1
+colorscheme afterglow
 " let g:airline_theme='violet'
-" colorscheme elvis-space-vim
-let g:airline_theme='base16_spacemacs'
+" let g:airline_theme='base16_spacemacs'
+let g:airline_theme='afterglow'
+hi Normal guibg=NONE ctermbg=NONE
 
 
 " GUI setup
@@ -86,7 +89,7 @@ set guioptions=
 
 
 "Set up Vundle
-"set rtp+=~/.vim/bundle/Vundle.vim
+" set rtp+=~/.vim/bundle/Vundle.vim
 call plug#begin('~/.vim/plugged')
 " Plug 'VundleVim/Vundle.vim'
 " Git
@@ -95,7 +98,7 @@ Plug 'git://git.wincent.com/command-t.git'
 Plug 'rstacruz/sparkup', {'rtp':'vim/'}
 
 " LaTeX
-" Plug 'xuhdev/vim-latex-live-preview'
+Plug 'xuhdev/vim-latex-live-preview'
 Plug 'vim-latex/vim-latex'
 Plug 'lervag/vimtex'
 
@@ -137,6 +140,10 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " Markdown
 Plug 'iamcco/markdown-preview.nvim', {'do': 'cd app & yarn install'}
 
+" colorscheme
+Plug 'romgrk/doom-one.vim'
+Plug 'sts10/vim-pink-moon'
+Plug 'danilo-augusto/vim-afterglow'
 call plug#end()
 
 autocmd! bufwritepost vimrc source ~/.vim_runtime/vimrc
@@ -146,9 +153,11 @@ autocmd! bufwritepost vimrc source ~/.vim_runtime/vimrc
 " C indentation style and syntax highlighting for c, c0, and c1 files
 " autocmd FileType c set cindent
 " autocmd FileType c setf c
-" autocmd FileType c set expandtab
 autocmd FileType c set shiftwidth=4
+autocmd FileType c set noexpandtab
+autocmd FileType cpp set tabstop=4
 autocmd FileType cpp set shiftwidth=4
+autocmd FileType cpp set noexpandtab
 " au BufEnter *.c0 set cindent
 " au BufEnter *.c0 set expandtab
 au BufRead,BufNewFile *.c0 set filetype=c0
@@ -159,20 +168,29 @@ au BufRead,BufNewFile *.c1 set filetype=c0
 " Python indentation style ...
 autocmd FileType py set tabstop=4
 autocmd FileType py set shiftwidth=4
-autocmd FileType py set expandtab
+autocmd FileType py set noexpandtab
 autocmd FileType py setf python
 autocmd BufEnter,BufRead,BufNewFile *.py    set iskeyword-=:
+
 
 
 " LaTeX setup
 set shellslash
 set grepprg=grep\ -nH\ $*
 let g:tex_flavor='latex'
-set sw=2
+set sw=4
 autocmd BufEnter,BufRead,BufNewFile *.tex   set iskeyword+=:
 autocmd Filetype tex setl updatetime=1000
-let g:livepreview_previewer='open -a Preview'
+let g:livepreview_previewer='evince'
 
+au BufNewFile,BufRead *.js,*.html,*.css,*.tex
+    \ setlocal tabstop=4 softtabstop=4 shiftwidth=4
+
+let g:Imap_UsePlaceHolders = 0
+
+autocmd FileType tex set tabstop=4
+autocmd FileType tex set shiftwidth=4
+autocmd FileType tex set expandtab
 
 
 " NERDTree
@@ -285,19 +303,15 @@ let g:startify_lists = [
 
 " Fancy header for Startify
 let s:header = [
-        \ '  __________ /|         __       _______               ',
-        \ '   \\  ____// | ____ __/_/_____ // ___ /_____________  ',
-        \ '   || |____ | | || |/ /| |/ __/ || |_| ||__  \\ |__ /  ',
-        \ '   ||  ____|| |_|| | / | |\__ \ || |___// _  || | | |  ',
-        \ '   || |______\__/\\_/   \|/___/ || |    \____|\_| | |  ',
-        \ '   \\_________/                 || |               \|  ',
-        \ '                                ||/                    ',
+        \ '+----------------------------------+',
+        \ '|               Vim                |',
+        \ '+----------------------------------+',
         \ ]
 
 " Fancy footer for Startify
 let s:footer = [
         \ '+----------------------------------+',
-        \ '|           Elvis Pan              |',
+        \ '|             Yan Pan              |',
         \ '|    Carnegie Mellon University    |',
         \ '|                                  |',
         \ '|     My heart is in the work!     |',
@@ -345,8 +359,11 @@ if has("patch-8.1.1564")
   " Recently vim can merge signcolumn and number column into one
   set signcolumn=number
 else
-  set signcolumn=yes
+  set signcolumn=number
+  "set signcolumn=yes
 endif
+
+let b:coc_diagnostic_disable=1
 
 " Use tab for trigger completion with characters ahead and navigate.
 " NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
@@ -586,6 +603,7 @@ let g:cpp_class_decl_highlight = 1
 let g:cpp_posix_standard = 1
 let g:cpp_experimental_simple_template_highlight = 1
 let g:cpp_experimental_template_highlight = 1
+let g:clang_c_options = '-std=c++17'
 
 augroup vimbettersml
   au!
@@ -618,3 +636,8 @@ augroup vimbettersml
   " Uncomment to try out same-width conceal characters
   "let g:sml_greek_tyvar_show_tick = 1
 augroup END
+
+let g:python_host_prog='/Users/elvispan/anaconda3/envs/main/bin/python'
+let g:python3_host_prog='/Users/elvispan/anaconda3/envs/main/bin/python'
+
+" let g:doom_one_terminal_colors = v:true
