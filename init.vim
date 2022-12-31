@@ -68,11 +68,11 @@ set fillchars+=stl:\ ,stlnc:\
 set termencoding=utf-8
 
 " Colorscheme
-" colorscheme one
+colorscheme one
 " let g:airline_theme='one'
 " colorscheme space-vim-dark
-let g:sierra_Sunset = 1
-colorscheme afterglow
+" let g:sierra_Sunset = 1
+" colorscheme afterglow
 " let g:airline_theme='violet'
 " let g:airline_theme='base16_spacemacs'
 let g:airline_theme='afterglow'
@@ -101,6 +101,9 @@ Plug 'rstacruz/sparkup', {'rtp':'vim/'}
 Plug 'xuhdev/vim-latex-live-preview'
 Plug 'vim-latex/vim-latex'
 Plug 'lervag/vimtex'
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
+
 
 " NERDTree
 Plug 'scrooloose/nerdtree'
@@ -641,3 +644,10 @@ let g:python_host_prog='/Users/elvispan/anaconda3/envs/main/bin/python'
 let g:python3_host_prog='/Users/elvispan/anaconda3/envs/main/bin/python'
 
 " let g:doom_one_terminal_colors = v:true
+
+let g:UltiSnipsExpandTrigger="<enter>"
+let g:UltiSnipsJumpForwardTrigger="<c-b>"
+let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+let g:UltiSnipsEditSplit="vertical"
+
+let g:CommandTPreferredImplementation='ruby'
