@@ -1,0 +1,34 @@
+{
+    "python.pythonPath": "/usr/bin/python3",
+    "python.jediEnabled": true,
+    //"clangd.path": "/Users/elvispan/.config/coc/extensions/coc-clangd-data/install/12.0.1/clangd_12.0.1/bin/clangd",
+    "clangd.path": "/Users/elvispan/.config/coc/extensions/coc-clangd-data/install/14.0.3/clangd_14.0.3/bin/clangd",
+    "languageserver": {
+        "ccls": {
+            "command": "ccls",
+            "filetypes": [
+                "c",
+                "cpp",
+                "objc",
+                "objcpp"
+            ],
+            "rootPatterns": [
+                ".ccls",
+                "compile_commands.json",
+                ".vim/",
+                ".git/",
+                ".hg/"
+            ],
+            "initializationOptions": {
+                "cache": {
+                    "directory": "/tmp/ccls"
+                },
+                "highlight": {
+                    "lsRanges": true
+                }
+            }
+        }
+    },
+    "suggest.noselect": true,
+    "suggest.enablePreselect": false,
+}

@@ -68,11 +68,11 @@ set fillchars+=stl:\ ,stlnc:\
 set termencoding=utf-8
 
 " Colorscheme
-colorscheme one
+" colorscheme one
 " let g:airline_theme='one'
 " colorscheme space-vim-dark
 " let g:sierra_Sunset = 1
-" colorscheme afterglow
+colorscheme afterglow
 " let g:airline_theme='violet'
 " let g:airline_theme='base16_spacemacs'
 let g:airline_theme='afterglow'
@@ -142,6 +142,8 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 " Markdown
 Plug 'iamcco/markdown-preview.nvim', {'do': 'cd app & yarn install'}
+" Plug 'iamcco/markdown-preview.nvim', { 'do': { -> mkdp#util#install() }, 'for': ['markdown', 'vim-plug']}
+
 
 " colorscheme
 Plug 'romgrk/doom-one.vim'
@@ -505,17 +507,24 @@ let g:AutoPairsShortcutToggle = '<M-a>' " To avoid conflict with <Esc> to normal
 
 " CoC
 
-" Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
-inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-
-function! s:check_back_space() abort
+" use <tab> to trigger completion and navigate to the next complete item
+function! CheckBackspace() abort
   let col = col('.') - 1
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
+
+inoremap <silent><expr> <Tab>
+      \ coc#pum#visible() ? coc#pum#next(1) :
+      \ CheckBackspace() ? "\<Tab>" :
+      \ coc#refresh()
+
+" use <c-space> for trigger completion
+inoremap <silent><expr> <c-space> coc#refresh()
+" Use <C-@> on vim
+inoremap <silent><expr> <c-@> coc#refresh()
+
+inoremap <expr> <Tab> coc#pum#visible() ? coc#pum#next(1) : "\<Tab>"
+inoremap <expr> <S-Tab> coc#pum#visible() ? coc#pum#prev(1) : "\<S-Tab>"
 
 " Use `[c` and `]c` to navigate diagnostics
 nmap <silent> [c <Plug>(coc-diagnostic-prev)
@@ -640,8 +649,8 @@ augroup vimbettersml
   "let g:sml_greek_tyvar_show_tick = 1
 augroup END
 
-let g:python_host_prog='/Users/elvispan/anaconda3/envs/main/bin/python'
-let g:python3_host_prog='/Users/elvispan/anaconda3/envs/main/bin/python'
+let g:python_host_prog='~/anaconda3/envs/main/bin/python'
+let g:python3_host_prog='~/anaconda3/envs/main/bin/python'
 
 " let g:doom_one_terminal_colors = v:true
 
@@ -651,3 +660,4 @@ let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 let g:UltiSnipsEditSplit="vertical"
 
 let g:CommandTPreferredImplementation='ruby'
+

@@ -1,5 +1,5 @@
 " Vim color file
-" Edited by Elvis Pan
+" Edited by Yan Pan
 " Author: Liu-Cheng Xu
 " URL: https://github.com/liuchengxu/space-vim-dark
 "
