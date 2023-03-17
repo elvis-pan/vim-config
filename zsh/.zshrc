@@ -140,7 +140,18 @@ alias 751="cd ~/Documents/CMU/Course/S22/15-751"
 alias 484="cd ~/Documents/CMU/Course/S22/21-484"
 alias 356="cd ~/Documents/CMU/Course/S22/21-356"
 alias 405="cd ~/Documents/CMU/Course/S22/80-405"
-alias 295="cd ~/Documents/CMU/Course/S22/15-295"
+# alias 295="cd ~/Documents/CMU/Course/S22/15-295"
+
+# Fall 2022 courses
+alias 440="cd ~/Documents/CMU/Course/F22/15-440"
+alias 703="cd ~/Documents/CMU/Course/F22/10-703"
+alias 301="cd ~/Documents/CMU/Course/F22/21-301"
+alias 341="cd ~/Documents/CMU/Course/F22/21-341"
+# alias 295="cd ~/Documents/CMU/Course/F22/15-295"
+
+# Spring 2023 courses
+alias 295="cd ~/Documents/CMU/Course/S23/15-295"
+alias 422="cd ~/Documents/CMU/Course/S23/10-422"
 
 # alias s="neofetch"
 alias code="cd ~/Documents/code"
@@ -148,6 +159,7 @@ alias gh="cd ~/Documents/GitHub"
 alias wb="cd ~/Documents/GitHub/panyan7.github.io"
 alias music="cd ~/Documents/Miscellaneous/music"
 alias cf="cd ~/Documents/CP/Codeforces"
+alias cpg="cd ~/Documents/CP"
 alias algo="cd ~/Documents/GitHub/algorithm"
 alias re="cd ~/Documents/Research"
 alias mc="cd ~/Documents/Research/MultiComp"
@@ -156,7 +168,13 @@ alias notes="cd ~/Documents/Notes"
 alias lt="cd ~/Documents/GitHub/latex-template"
 alias rebib="rebiber -i references.bib -o references.bib -r editor,volume,month,url,biburl,address,publisher,bibsource,timestamp,doi"
 alias viewbib="vim ~/Documents/GitHub/latex-template/references.bib"
+alias viewsty="vim ~/Documents/GitHub/latex-template/panyan.sty"
 alias renewbib="cp ~/Documents/GitHub/latex-template/references.bib references.bib"
+alias renewsty="cp ~/Documents/GitHub/latex-template/panyan.sty panyan.sty"
+alias gdrive="cd /Volumes/GoogleDrive-109341581984545097908/My\ Drive"
+alias yz="cd /Volumes/GoogleDrive-109341581984545097908/My\ Drive/Yuanzhi/adam-experiments"
+alias gdrive-zihao="cd /Volumes/GoogleDrive-110165108734856739220/My\ Drive"
+alias rtg="cd ~/Documents/Competitions/ReadyTraderGo"
 
 prompt_context(){}
 # Competitive Programming
@@ -198,7 +216,8 @@ function maketex-bib () {
 function makebeamer () {
   mkdir $1;
   cp ~/Documents/GitHub/latex-template/beamer_template.tex $1/$1.tex;
-  cp ~/Documents/GitHub/latex-template/math.tex $1;
+  cp ~/Documents/GitHub/latex-template/panyan_beamer.sty $1;
+  cp ~/Documents/GitHub/latex-template/references.bib $1;
 }
 function cpwb () {
   cp $1 ~/Documents/GitHub/panyan7.github.io/assets/pdf
