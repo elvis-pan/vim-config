@@ -32,7 +32,7 @@ set laststatus=2
 
 set title
 set hlsearch
-set ignorecase
+" set ignorecase
 set smartcase
 set incsearch
 
@@ -661,3 +661,4 @@ let g:UltiSnipsEditSplit="vertical"
 
 let g:CommandTPreferredImplementation='ruby'
 
+map <C-l> :AirlineToggle<CR>
